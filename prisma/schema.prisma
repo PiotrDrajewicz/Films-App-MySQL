@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // provider = "postgresql"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  // relationMode = "prisma"
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String     @id @default(cuid())
+  name          String?
+  email         String?    @unique
+  emailVerified DateTime?
+  username      String?    @unique
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  likes         LikeVote[] @relation("UserLiked")
+  // likedFilms    Film[]    @relation(name: "likedRelation")
+  // ratedFilms    Film[]    @relation(name: "ratedRelation")
+  // ratesGiven    Rate[]
+  // Rate          Rate[]
+}
+
+model Film {
+  id        String     @id @default(cuid())
+  movieDbId Int
+  title     String
+  usersLike LikeVote[] @relation("FilmLiked")
+  // usersLiked    User[] @relation(name: "likedRelation")
+  // usersRated    User[] @relation(name: "ratedRelation")
+  // ratesReceived Rate[]
+  // Rate      Rate[]
+}
+
+model LikeVote {
+  id          String @id @default(cuid())
+  userLiked   User   @relation("UserLiked", fields: [userLikedId], references: [id])
+  userLikedId String
+  filmLiked   Film   @relation("FilmLiked", fields: [filmLikedId], references: [id])
+  filmLikedId String
+  movieDbId   Int
+
+  // @@id([userLikedId, filmLikedId])
+}
+
+model TestFilm {
+  id    Int    @id
+  title String
+}
+
+// model Rate {
+//   id          String @id @default(cuid())
+//   value       Int
+//   givenByUser User   @relation(fields: [userId], references: [id])
+//   userId      String
+//   givenToFilm Film   @relation(fields: [filmId], references: [id])
+//   filmId      String
+// }
