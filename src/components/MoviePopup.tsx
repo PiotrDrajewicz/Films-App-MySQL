@@ -15,6 +15,14 @@ interface MoviePopupInterface {
     setIsActive: (isOpen: boolean) => void;
     overview: string;
 }
+
+interface LikeVote {
+    id: string,
+    userLikedId: string,
+    filmLikedId: string,
+    movieDbId: number
+}
+
 const isOpen: boolean = false;
 const rates:number[] = [0, 1, 2, 3, 4, 5];
 
@@ -46,7 +54,7 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
         const favCompResult = pBFavMovies.some(movie => movie.movieId === movieId);
         const ratedCompResult = pBRatedMovies.some(movie => movie.movieId === movieId);
         if (favCompResult) {
-            setIsFav(true);
+            // setIsFav(true);
             const foundMovie = pBFavMovies.find(movie => movie.movieId === movieId);
             setPocketBaseId(foundMovie.id);
         }
@@ -57,29 +65,27 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
         }
     }
     
+    const checkCollection2 = async () => {
+        // const res = await axios.get('/api/filmsLibrary/fav', { 
+        //     params: {
+        //         movieDbId: movieId
+        // }}).catch((error) => {
+        //     console.log(error)
+        // })
 
-    // const addToFav = async () => {
-    //     setIsFav(true);
-    //     let isFav = true;
-    //     // console.log('add triggered');
-        
-    //     await fetch('http://127.0.0.1:8090/api/collections/fav_movies/records', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({
-    //             movieId,
-    //             title,
-    //             poster_path,
-    //             overview,
-    //             isFav,
-    //             rating
-    //         }),
-    //     });
+        const res = await axios.get('/api/filmsLibrary/fav').catch((error) => {
+            console.log(error)
+        })
+        const filmIsFav = res?.data.some((film: LikeVote) => film.movieDbId === movieId);
+
+        if (filmIsFav) {
+            setIsFav(true);
+        }
+
+        console.log('res: ', filmIsFav);
+    }
 
     //     router.refresh();
-    // }
     const addToFav = async () => {
         setIsFav(true);
         let isFav = true;
@@ -96,25 +102,13 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
     }
 
     const deleteFav = async () => {
-        setIsFav(false);
-
-        // console.log('delete triggered', pocketBaseId);
-        // await fetch(`http://127.0.0.1:8090/api/collections/fav_movies/records/${pocketBaseId}`, {
-        //     method: 'DELETE',
-        // });
-        // router.refresh();
-
-        // const likeVoteToDelete = db.likeVote.findFirst({
-        //     where: {
-
-        //     }
-        // })
-
         const likeVoteToDeletePayload: CreateLikeVoteDeletePayload = {
             movieDbId: movieId
         };
-
+        
         await axios.delete('/api/filmsLibrary/fav/delete', { data: likeVoteToDeletePayload });
+
+        setIsFav(false);
     }
 
     const checkClick = () => {
@@ -140,6 +134,7 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
 
     useEffect(() => {
         checkCollection();
+        checkCollection2();
     }, [isFav])
 
     return (
