@@ -49,6 +49,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   likes         LikeVote[] @relation("UserLiked")
+  rates         RateVote[] @relation("UserRated")
   // likedFilms    Film[]    @relation(name: "likedRelation")
   // ratedFilms    Film[]    @relation(name: "ratedRelation")
   // ratesGiven    Rate[]
@@ -60,6 +61,7 @@ model Film {
   movieDbId Int
   title     String
   usersLike LikeVote[] @relation("FilmLiked")
+  usersRate RateVote[] @relation("FilmRated")
   // usersLiked    User[] @relation(name: "likedRelation")
   // usersRated    User[] @relation(name: "ratedRelation")
   // ratesReceived Rate[]
@@ -77,16 +79,17 @@ model LikeVote {
   // @@id([userLikedId, filmLikedId])
 }
 
+model RateVote {
+  id          String @id @default(cuid())
+  userRated   User   @relation("UserRated", fields: [userRatedId], references: [id])
+  userRatedId String
+  filmRated   Film   @relation("FilmRated", fields: [filmRatedId], references: [id])
+  filmRatedId String
+  movieDbId   Int
+  value       Int
+}
+
 model TestFilm {
   id    Int    @id
   title String
 }
-
-// model Rate {
-//   id          String @id @default(cuid())
-//   value       Int
-//   givenByUser User   @relation(fields: [userId], references: [id])
-//   userId      String
-//   givenToFilm Film   @relation(fields: [filmId], references: [id])
-//   filmId      String
-// }

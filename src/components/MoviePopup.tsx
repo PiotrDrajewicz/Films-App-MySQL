@@ -37,7 +37,7 @@ const getMovies = async (collection: string) => {
 const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path, setIsActive, overview}) => {
     const [isFav, setIsFav] = useState<boolean>(false);
     const [isRateOpen, setIsRateOpen] = useState<boolean>(false);
-    const [ rating, setRating ] = useState<number>(0);
+    const [rating, setRating] = useState<number>(0);
     const [pocketBaseId, setPocketBaseId] = useState<string>('');
     // const [pocketFav, setPocketFav] = useState(getMovies('fav_movies'));
     const popupRef = useRef<HTMLElement>(null);
@@ -102,13 +102,13 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
     }
 
     const deleteFav = async () => {
+        setIsFav(false);
+
         const likeVoteToDeletePayload: CreateLikeVoteDeletePayload = {
             movieDbId: movieId
         };
         
         await axios.delete('/api/filmsLibrary/fav/delete', { data: likeVoteToDeletePayload });
-
-        setIsFav(false);
     }
 
     const checkClick = () => {

@@ -30,45 +30,54 @@ const RateNumber: React.FC<RateNumberInterface> = ({isRateOpen, rating, pocketBa
         setRating(rating);
         const ratedMovies = await getRatedMovies();
         const isInDatabase = ratedMovies.some(movie => movie.movieId === movieId)
-        if (isInDatabase && rating) {
-            await fetch(`http://127.0.0.1:8090/api/collections/rated_movies/records/${pocketBaseId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    rating
-                }),
-            });
 
-            router.refresh();
-        }
-        if (isInDatabase && !rating) {
-            await fetch(`http://127.0.0.1:8090/api/collections/rated_movies/records/${pocketBaseId}`, {
-                method: 'DELETE',
-            });
+        
+
+
+
+
+
+
+
+        // if (isInDatabase && rating) {
+        //     await fetch(`http://127.0.0.1:8090/api/collections/rated_movies/records/${pocketBaseId}`, {
+        //         method: 'PATCH',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({
+        //             rating
+        //         }),
+        //     });
+
+        //     router.refresh();
+        // }
+        // if (isInDatabase && !rating) {
+        //     await fetch(`http://127.0.0.1:8090/api/collections/rated_movies/records/${pocketBaseId}`, {
+        //         method: 'DELETE',
+        //     });
     
-            router.refresh();
-        }
-        if (!isInDatabase && rating) {
-            // console.log('nie ma');
-            await fetch('http://127.0.0.1:8090/api/collections/rated_movies/records', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    movieId,
-                    title,
-                    poster_path,
-                    overview,
-                    isFav,
-                    rating
-                }),
-            });
+        //     router.refresh();
+        // }
+        // if (!isInDatabase && rating) {
+        //     // console.log('nie ma');
+        //     await fetch('http://127.0.0.1:8090/api/collections/rated_movies/records', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({
+        //             movieId,
+        //             title,
+        //             poster_path,
+        //             overview,
+        //             isFav,
+        //             rating
+        //         }),
+        //     });
 
-            router.refresh();
-        }
+        //     router.refresh();
+        // }
     }
 
     return (
