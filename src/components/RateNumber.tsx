@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 interface RateNumberInterface {
     isRateOpen: boolean;
@@ -11,6 +12,12 @@ interface RateNumberInterface {
     isFav?: boolean;
     setIsRateOpen: (isOpen:boolean) => void;
     setRating: (rate: number) => void;
+}
+
+interface RateVote {
+    movieDbId: number,
+    value: number,
+    title: string
 }
 
 const getRatedMovies = async () => {
@@ -28,10 +35,18 @@ const RateNumber: React.FC<RateNumberInterface> = ({isRateOpen, rating, pocketBa
     const giveRating = async () => {
         setIsRateOpen(false);
         setRating(rating);
-        const ratedMovies = await getRatedMovies();
-        const isInDatabase = ratedMovies.some(movie => movie.movieId === movieId)
+        // const ratedMovies = await getRatedMovies();
+        // const isInDatabase = ratedMovies.some(movie => movie.movieId === movieId)
 
-        
+        const rateVotePayload: RateVote = {
+            movieDbId: movieId,
+            value: rating,
+            title
+        }
+
+        await axios.put('/api/filmsLibrary/rated/updateVote', rateVotePayload).catch((error) => {
+            console.log(error);
+        })
 
 
 

@@ -12,21 +12,23 @@ export async function GET(req: Request) {
             return NextResponse.json("Unauthorized", {status: 401});
         }
 
-        //If everything is fine - get like votes from the db
-        const likeVotes = await db.likeVote.findMany({
+        //If everything is fine - get rate votes from the db
+        const rateVotes = await db.rateVote.findMany({
             where: {
-                userLikedId: session.user.id,
+                userRatedId: session.user.id,
             }
         })
 
-        return NextResponse.json(likeVotes);
+        return NextResponse.json(rateVotes);
 
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json(error.message, {status: 422})
         }
 
-        return NextResponse.json("Could not get the user's like votes list", {status: 500})
+        return NextResponse.json("Could not get the user's rate votes list", {status: 500})
     }
+
+
 
 }

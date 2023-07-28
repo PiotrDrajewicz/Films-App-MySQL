@@ -23,6 +23,14 @@ interface LikeVote {
     movieDbId: number
 }
 
+interface RateVote {
+    id: string,
+    userRatedId: string,
+    filmRatedId: string,
+    movieDbId: number,
+    value: number
+}
+
 const isOpen: boolean = false;
 const rates:number[] = [0, 1, 2, 3, 4, 5];
 
@@ -48,24 +56,24 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
         setIsRateOpen(prev => !prev);
     }
     
-    const checkCollection = async () => {
-        const pBFavMovies = await getMovies('fav_movies');
-        const pBRatedMovies = await getMovies('rated_movies');
-        const favCompResult = pBFavMovies.some(movie => movie.movieId === movieId);
-        const ratedCompResult = pBRatedMovies.some(movie => movie.movieId === movieId);
-        if (favCompResult) {
+    // const checkCollection = async () => {
+        // const pBFavMovies = await getMovies('fav_movies');
+        // const pBRatedMovies = await getMovies('rated_movies');
+        // const favCompResult = pBFavMovies.some(movie => movie.movieId === movieId);
+        // const ratedCompResult = pBRatedMovies.some(movie => movie.movieId === movieId);
+        // if (favCompResult) {
             // setIsFav(true);
-            const foundMovie = pBFavMovies.find(movie => movie.movieId === movieId);
-            setPocketBaseId(foundMovie.id);
-        }
-        if (ratedCompResult) {
-            const foundMovie = pBRatedMovies.find(movie => movie.movieId === movieId);
-            setPocketBaseId(foundMovie.id);
-            setRating(foundMovie.rating);
-        }
-    }
+        //     const foundMovie = pBFavMovies.find(movie => movie.movieId === movieId);
+        //     setPocketBaseId(foundMovie.id);
+        // }
+        // if (ratedCompResult) {
+        //     const foundMovie = pBRatedMovies.find(movie => movie.movieId === movieId);
+        //     setPocketBaseId(foundMovie.id);
+        //     setRating(foundMovie.rating);
+        // }
+    // }
     
-    const checkCollection2 = async () => {
+    const checkCollection = async () => {
         // const res = await axios.get('/api/filmsLibrary/fav', { 
         //     params: {
         //         movieDbId: movieId
@@ -73,16 +81,35 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
         //     console.log(error)
         // })
 
-        const res = await axios.get('/api/filmsLibrary/fav').catch((error) => {
+        const favRes = await axios.get('/api/filmsLibrary/fav').catch((error) => {
             console.log(error)
         })
-        const filmIsFav = res?.data.some((film: LikeVote) => film.movieDbId === movieId);
+        const filmIsFav = await favRes?.data.some((likeVote: LikeVote) => likeVote.movieDbId === movieId);
 
         if (filmIsFav) {
             setIsFav(true);
         }
 
-        console.log('res: ', filmIsFav);
+        // console.log('res: ', filmIsFav);
+    }
+
+    const checkRating = async () => {
+        const rateRes = await axios.get('/api/filmsLibrary/rated').catch((error) => {
+            console.log(error);
+        })
+        const filmRate = await rateRes?.data.find((rateVote: RateVote) => {
+            return rateVote.movieDbId === movieId;
+        })
+
+        if (filmRate) {
+            setRating(filmRate.value);
+            console.log('rate: ', filmRate);
+        }
+
+        if(!filmRate) {
+            console.log('no rate');
+        }
+
     }
 
     //     router.refresh();
@@ -130,12 +157,17 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
     useEffect(()  => {
         // checkCollection();
         checkClick();
+        checkRating();
     }, [])
 
     useEffect(() => {
         checkCollection();
-        checkCollection2();
+        // checkCollection2();
     }, [isFav])
+
+    useEffect(() => {
+        // checkRating();
+    }, [rating])
 
     return (
         <>
