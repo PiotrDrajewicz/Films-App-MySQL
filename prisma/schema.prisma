@@ -82,11 +82,13 @@ model LikeVote {
 model RateVote {
   id          String @id @default(cuid())
   userRated   User   @relation("UserRated", fields: [userRatedId], references: [id])
-  userRatedId String @unique
+  userRatedId String
   filmRated   Film   @relation("FilmRated", fields: [filmRatedId], references: [id])
   filmRatedId String
   movieDbId   Int
   value       Int
+
+  // @@id([userRatedId, filmRatedId])
 }
 
 model TestFilm {

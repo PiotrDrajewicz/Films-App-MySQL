@@ -50,37 +50,13 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
     // const [pocketFav, setPocketFav] = useState(getMovies('fav_movies'));
     const popupRef = useRef<HTMLElement>(null);
 
-    const router = useRouter();
+    // const router = useRouter();
 
     const toggleRate = (): void => {
         setIsRateOpen(prev => !prev);
     }
     
-    // const checkCollection = async () => {
-        // const pBFavMovies = await getMovies('fav_movies');
-        // const pBRatedMovies = await getMovies('rated_movies');
-        // const favCompResult = pBFavMovies.some(movie => movie.movieId === movieId);
-        // const ratedCompResult = pBRatedMovies.some(movie => movie.movieId === movieId);
-        // if (favCompResult) {
-            // setIsFav(true);
-        //     const foundMovie = pBFavMovies.find(movie => movie.movieId === movieId);
-        //     setPocketBaseId(foundMovie.id);
-        // }
-        // if (ratedCompResult) {
-        //     const foundMovie = pBRatedMovies.find(movie => movie.movieId === movieId);
-        //     setPocketBaseId(foundMovie.id);
-        //     setRating(foundMovie.rating);
-        // }
-    // }
-    
-    const checkCollection = async () => {
-        // const res = await axios.get('/api/filmsLibrary/fav', { 
-        //     params: {
-        //         movieDbId: movieId
-        // }}).catch((error) => {
-        //     console.log(error)
-        // })
-
+    const checkFav = async () => {
         const favRes = await axios.get('/api/filmsLibrary/fav').catch((error) => {
             console.log(error)
         })
@@ -155,19 +131,18 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
     
 
     useEffect(()  => {
-        // checkCollection();
         checkClick();
+        checkFav();
         checkRating();
     }, [])
 
-    useEffect(() => {
-        checkCollection();
-        // checkCollection2();
-    }, [isFav])
+    // useEffect(() => {
+        // checkFav();
+    // }, [isFav])
 
-    useEffect(() => {
+    // useEffect(() => {
         // checkRating();
-    }, [rating])
+    // }, [rating])
 
     return (
         <>

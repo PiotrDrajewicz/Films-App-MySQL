@@ -30,69 +30,28 @@ const getRatedMovies = async () => {
 
 const RateNumber: React.FC<RateNumberInterface> = ({isRateOpen, rating, pocketBaseId, movieId, title, poster_path, overview, isFav, setIsRateOpen, setRating}) => {
 
-    const router = useRouter();
+    // const router = useRouter();
     
     const giveRating = async () => {
         setIsRateOpen(false);
         setRating(rating);
-        // const ratedMovies = await getRatedMovies();
-        // const isInDatabase = ratedMovies.some(movie => movie.movieId === movieId)
 
         const rateVotePayload: RateVote = {
             movieDbId: movieId,
             value: rating,
             title
         }
+        // console.log(rateVotePayload.movieDbId, rateVotePayload.value, rateVotePayload.title);
 
-        await axios.put('/api/filmsLibrary/rated/updateVote', rateVotePayload).catch((error) => {
-            console.log(error);
-        })
-
-
-
-
-
-
-
-        // if (isInDatabase && rating) {
-        //     await fetch(`http://127.0.0.1:8090/api/collections/rated_movies/records/${pocketBaseId}`, {
-        //         method: 'PATCH',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({
-        //             rating
-        //         }),
-        //     });
-
-        //     router.refresh();
-        // }
-        // if (isInDatabase && !rating) {
-        //     await fetch(`http://127.0.0.1:8090/api/collections/rated_movies/records/${pocketBaseId}`, {
-        //         method: 'DELETE',
-        //     });
-    
-        //     router.refresh();
-        // }
-        // if (!isInDatabase && rating) {
-        //     // console.log('nie ma');
-        //     await fetch('http://127.0.0.1:8090/api/collections/rated_movies/records', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({
-        //             movieId,
-        //             title,
-        //             poster_path,
-        //             overview,
-        //             isFav,
-        //             rating
-        //         }),
-        //     });
-
-        //     router.refresh();
-        // }
+        if (rating === 0) {
+            await axios.delete('/api/filmsLibrary/rated/updateVote', { data: rateVotePayload }).catch((error) => {
+                console.log(error);
+            })
+        } else {
+            await axios.put('/api/filmsLibrary/rated/updateVote', rateVotePayload).catch((error) => {
+                console.log(error);
+            })
+        }
     }
 
     return (

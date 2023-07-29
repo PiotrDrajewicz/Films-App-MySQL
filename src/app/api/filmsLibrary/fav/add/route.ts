@@ -16,22 +16,16 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { movieDbId, title } = FilmValidator.parse(body);
 
-        //Check if film already exists
-        const filmExists = await db.film.findFirst({
+        //Find or create film
+        const film = await db.film.upsert({
             where: {
                 movieDbId,
-                title,
-            }
-        })
-        if (filmExists) {
-            return NextResponse.json("Film already exists", {status: 409});
-        }
-
-        //If everything is fine - create film
-        const film = await db.film.create({
-            data: {
+                title
+            },
+            update: {},
+            create: {
                 movieDbId,
-                title,
+                title
             }
         })
 
