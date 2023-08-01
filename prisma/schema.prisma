@@ -75,6 +75,7 @@ model LikeVote {
   filmLiked   Film   @relation("FilmLiked", fields: [filmLikedId], references: [id])
   filmLikedId String
   movieDbId   Int
+  title       String
 
   // @@id([userLikedId, filmLikedId])
 }
@@ -87,6 +88,7 @@ model RateVote {
   filmRatedId String
   movieDbId   Int
   value       Int
+  title       String
 
   // @@id([userRatedId, filmRatedId])
 }

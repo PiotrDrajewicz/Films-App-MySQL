@@ -45,7 +45,8 @@ export async function POST(req: Request) {
             data: {
                 userLikedId: session.user.id,
                 filmLikedId: film.id,
-                movieDbId
+                movieDbId,
+                title
             }
         })
 

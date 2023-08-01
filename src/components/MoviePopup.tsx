@@ -20,7 +20,8 @@ interface LikeVote {
     id: string,
     userLikedId: string,
     filmLikedId: string,
-    movieDbId: number
+    movieDbId: number,
+    title: string
 }
 
 interface RateVote {
