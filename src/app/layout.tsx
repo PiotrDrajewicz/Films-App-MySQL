@@ -1,6 +1,10 @@
 import './globals.css';
 import NavList from '../components/NavList';
+import Script from 'next/script';
 // import Providers from '@/components/Providers';
+// import { config } from "@fortawesome/fontawesome-svg-core";
+
+// config.autoAddCss = false;
 
 export const metadata = {
   title: 'Films App 2',
@@ -23,6 +27,7 @@ export default function RootLayout({
             {children}
           </main>
         {/* </Providers> */}
+        {/* <Script src='https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js' /> */}
       </body>
     </html>
   )

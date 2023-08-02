@@ -5,9 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeartCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { CreateLikeVoteDeletePayload } from "@/lib/validators/LikeVoteDelete";
 import axios from "axios";
-import { useRouter, usePathname } from "next/navigation";
-// import { revalidatePath } from "next/cache";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { HeartOff } from 'lucide-react';
 
 interface LikeVote {
     id: string,
@@ -15,12 +16,21 @@ interface LikeVote {
     filmLikedId: string,
     movieDbId: number,
     title: string,
-    // setFilmDeleted: (arg: any) => void
 }
 
+
+
 const FilmLibraryItem: React.FC<LikeVote> = ({ movieDbId, title }) => {
+    const [filmInfo, setFilmInfo] = useState<any>({});
     const router = useRouter();
-    // const pathName = usePathname();
+
+    const getFilm = async () => {
+        const res = await fetch(`https://api.themoviedb.org/3/movie/${movieDbId}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`);
+        const data = await res.json();
+        setFilmInfo(data);
+    }
+
+    // console.log(filmInfo)
 
     const deleteFav = async () => {
         const likeVoteToDeletePayload: CreateLikeVoteDeletePayload = {
@@ -30,22 +40,22 @@ const FilmLibraryItem: React.FC<LikeVote> = ({ movieDbId, title }) => {
         await axios.delete('/api/filmsLibrary/fav/delete', { data: likeVoteToDeletePayload });
 
         router.refresh();
-        // router.push(pathName);
-        // console.log(pathName);
-        // setFilmDeleted(true);
-        // revalidatePath('/')
     }
+
+    useEffect(() => {
+        getFilm();
+    }, [])
 
     return (
         <div className="movie-profile-container">
             <article className="movie-arr-item">
+                <Image className="profile-poster movie-info-item" alt="film poster" src={`https://image.tmdb.org/t/p/original${filmInfo.poster_path}`} width={100} height={100} />
                 <Link href={`/`} className="movie-profile-link">
                     <div className="link-container">
-                        {/* <img src={`https://image.tmdb.org/t/p/original`} className='profile-poster movie-info-item' alt="movie image in profile" /> */}
                         <h3 className="movie-info-item profile-movie-title">{title}</h3>
                     </div>
                 </Link>
-                    <FontAwesomeIcon className="delete-fav-icon movie-info-item" icon={faHeartCircleXmark} size='2x' onClick={deleteFav} />
+                <HeartOff className="delete-fav-icon movie-info-item" onClick={deleteFav} />
             </article>
         </div>
     )

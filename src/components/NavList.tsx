@@ -25,7 +25,7 @@ const NavList = async () => {
             </div> */}
             {/* <Link href="/sign-in" className="nav-item">Profile</Link> */}
             {/* <UserAuthForm /> */}
-            {session ? <Link href='/profile' className="nav-item"><Image src={session?.user.image!} alt="user profile picture" className="nav-user-image" id='nav-item-img' width={40} height={40} referrerPolicy='no-referrer'/></Link> : <Link href="/sign-in" className="nav-item nav-item-text">Sign In</Link>}
+            {session ? <Link href='/profile' id="nav-item-img-link" className="nav-item"><Image src={session?.user.image!} alt="user profile picture" className="nav-user-image" id='nav-item-img' width={40} height={40} referrerPolicy='no-referrer'/></Link> : <Link href="/sign-in" className="nav-item nav-item-text">Sign In</Link>}
         </div>
         
     )

@@ -6,6 +6,7 @@ import RateNumber from './RateNumber';
 import axios from 'axios';
 import { CreateFilmPayload } from '@/lib/validators/Film';
 import { CreateLikeVoteDeletePayload } from '@/lib/validators/LikeVoteDelete';
+import { Heart, Star } from 'lucide-react';
 
 
 interface MoviePopupInterface {
@@ -151,10 +152,13 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
                 <div className="movie-popup">
                     <img className="movie-poster-popup" src={`https://image.tmdb.org/t/p/original${poster_path}`} alt="movie poster popup" />
                     <div className="movie-popup-buttons">
-                        <FontAwesomeIcon className="popup-icon add-fav-icon" icon={faHeart} style={ isFav ? {color: 'rgb(250, 45, 45)'} : {color: 'white'}} onClick={ isFav ? deleteFav : addToFav} size='2x' />
+                        {/* <FontAwesomeIcon className="popup-icon add-fav-icon" icon={faHeart} style={ isFav ? {color: 'rgb(250, 45, 45)'} : {color: 'white'}} onClick={ isFav ? deleteFav : addToFav } size='2x' /> */}
+                        {/* <Heart className='popup-icon add-fav-icon' size={35} color={ isFav ? "rgb(250, 45, 45)" : "white"} fill={ isFav ? "rgb(250, 45, 45)" : "none"} onClick={ isFav ? deleteFav : addToFav } /> */}
+                        <Heart className='popup-icon add-fav-icon' size={35} color={ isFav ? "rgb(250, 45, 45)" : "white"} fill={ isFav ? "rgb(250, 45, 45)" : "none"} onClick={ isFav ? deleteFav : addToFav } />
                         <div className="star-container">
-                            <FontAwesomeIcon className="popup-icon rate-icon" icon={rating ? faStar : faStarHalfStroke} style={rating ? {color: 'gold'} : {color: 'white'}} onClick={toggleRate} size='2x' />
-                            <p className='rate-in-star'>{rating}</p>
+                            {/* <FontAwesomeIcon className="popup-icon rate-icon" icon={rating ? faStar : faStarHalfStroke} style={rating ? {color: 'gold'} : {color: 'white'}} onClick={toggleRate} size='2x' /> */}
+                            <Star className="popup-icon rate-icon" color={ rating ? 'gold' : 'white'} fill={ rating ? 'gold' : 'none' } onClick={toggleRate} size={35} />
+                            <p className='rate-in-star'>{rating ? rating : null}</p>
                         </div>
                         <div className={`rate-numbers ${ isRateOpen ? 'open' : null}`}>
                             {rates.map(rate => {

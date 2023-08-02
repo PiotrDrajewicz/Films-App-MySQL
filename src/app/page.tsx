@@ -3,7 +3,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import MovieItem from '@/components/MovieItem';
-import { useState, useEffect, useCallback, memo } from 'react';
+import { useState, useEffect } from 'react';
+import Lottie from 'lottie-react';
+import tvAnimationData from '@/lib/animations/tv_animation.json';
 
 interface MovieData {
     id: number;
@@ -49,6 +51,10 @@ const HomePage: React.FC = () => {
     return (
         <>
             <div className="home-page-container">
+                <section className="animation-container">
+                    <h1 className="homepage-title">Films Library</h1>
+                    <Lottie className='tv-animation' animationData={tvAnimationData} loop={true} />
+                </section>
                 <section className='input-container'>
                     <input className='movie-input' type="text" value={title} 
                     placeholder="Find movie" onChange={changeTitle} />
