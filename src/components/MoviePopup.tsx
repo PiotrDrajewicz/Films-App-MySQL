@@ -6,7 +6,10 @@ import RateNumber from './RateNumber';
 import axios from 'axios';
 import { CreateFilmPayload } from '@/lib/validators/Film';
 import { CreateLikeVoteDeletePayload } from '@/lib/validators/LikeVoteDelete';
-import { Heart, Star } from 'lucide-react';
+import { Star, Heart, X } from 'lucide-react';
+import HeartIcon from './HeartIcon';
+import XIcon from './XIcon';
+import { motion } from 'framer-motion';
 
 
 interface MoviePopupInterface {
@@ -32,6 +35,8 @@ interface RateVote {
     movieDbId: number,
     value: number
 }
+
+
 
 const isOpen: boolean = false;
 const rates:number[] = [0, 1, 2, 3, 4, 5];
@@ -153,8 +158,8 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
                     <img className="movie-poster-popup" src={`https://image.tmdb.org/t/p/original${poster_path}`} alt="movie poster popup" />
                     <div className="movie-popup-buttons">
                         {/* <FontAwesomeIcon className="popup-icon add-fav-icon" icon={faHeart} style={ isFav ? {color: 'rgb(250, 45, 45)'} : {color: 'white'}} onClick={ isFav ? deleteFav : addToFav } size='2x' /> */}
-                        {/* <Heart className='popup-icon add-fav-icon' size={35} color={ isFav ? "rgb(250, 45, 45)" : "white"} fill={ isFav ? "rgb(250, 45, 45)" : "none"} onClick={ isFav ? deleteFav : addToFav } /> */}
                         <Heart className='popup-icon add-fav-icon' size={35} color={ isFav ? "rgb(250, 45, 45)" : "white"} fill={ isFav ? "rgb(250, 45, 45)" : "none"} onClick={ isFav ? deleteFav : addToFav } />
+                        {/* <HeartIcon /> */}
                         <div className="star-container">
                             {/* <FontAwesomeIcon className="popup-icon rate-icon" icon={rating ? faStar : faStarHalfStroke} style={rating ? {color: 'gold'} : {color: 'white'}} onClick={toggleRate} size='2x' /> */}
                             <Star className="popup-icon rate-icon" color={ rating ? 'gold' : 'white'} fill={ rating ? 'gold' : 'none' } onClick={toggleRate} size={35} />
@@ -169,7 +174,9 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
                             <h3 className="movie-title">{title}</h3>
                             <p className="overview">{overview}</p>
                         </div>
-                        <FontAwesomeIcon className='close-icon' icon={faXmark} onClick={() => setIsActive(isOpen)} style={{color: 'white'}} size='2x' />
+                        {/* <FontAwesomeIcon className='close-icon' icon={faXmark} onClick={() => setIsActive(isOpen)} style={{color: 'white'}} size='2x' /> */}
+                        {/* <X className='close-icon' color='white' size={35} onClick={() => setIsActive(isOpen)}/> */}
+                        <XIcon />
                     </div>
                 </div>
             </section>
