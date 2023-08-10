@@ -152,8 +152,8 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
     // }, [rating])
 
     return (
-        <>
-            <section ref={popupRef} className="movie-popup-container" >
+        
+            <motion.section initial={{opacity: 0}} animate={{opacity: 1}} ref={popupRef} className="movie-popup-container" >
                 <div className="movie-popup">
                     <img className="movie-poster-popup" src={`https://image.tmdb.org/t/p/original${poster_path}`} alt="movie poster popup" />
                     <div className="movie-popup-buttons">
@@ -176,11 +176,11 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
                         </div>
                         {/* <FontAwesomeIcon className='close-icon' icon={faXmark} onClick={() => setIsActive(isOpen)} style={{color: 'white'}} size='2x' /> */}
                         {/* <X className='close-icon' color='white' size={35} onClick={() => setIsActive(isOpen)}/> */}
-                        <XIcon />
+                        <XIcon setIsActive={setIsActive} isOpen={isOpen} />
                     </div>
                 </div>
-            </section>
-        </>
+            </motion.section>
+        
     )
 }
 

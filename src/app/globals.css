@@ -343,12 +343,16 @@ body {
     transform: scale(1.2);
 }
 
-/* .rate-icon {
-    transition: all 2s;
-} */
+.rate-icon {
+    transition: transform .1s, filter .1s;
+}
 
 .rate-icon:hover {
     filter: brightness(.9);
+}
+
+.rate-icon:active {
+    transform: scale(1.2);
 }
 
 .star-container {
@@ -370,14 +374,14 @@ body {
     margin-top: auto;
     margin-bottom: 1.5rem;
     cursor: pointer;
-    transition: transform .2s;
+    /* transition: transform .2s; */
     /* background-color: red; */
-    width: 30px;
+    /* width: 30px; */
     align-self: center;
 }
 
 .close-icon:hover {
-    transform: rotate(90deg);
+    /* transform: rotate(90deg); */
 }
 
 .rate-numbers {

@@ -2,6 +2,7 @@
 
 import MoviePopup from './MoviePopup';
 import { useState } from "react";
+import { AnimatePresence } from 'framer-motion';
 
 interface MovieItemInterface {
     movieId: number;
@@ -24,7 +25,9 @@ const MovieItem: React.FC<MovieItemInterface> = ({movieId, title, poster_path, i
     return (
         <>
             <img className='movie-poster' src={`https://image.tmdb.org/t/p/original${poster_path}`} alt="movie poster" onClick={showPopup} />
+            <AnimatePresence >
             { isActive ? <MoviePopup title={title} poster_path={poster_path} setIsActive={setIsActive} overview={overview} movieId={movieId} /> : null }
+            </AnimatePresence >
         </>
     )
 }
