@@ -65,7 +65,7 @@ const HomePage: React.FC = () => {
                         const isOpen = false;
                         return (
                             <>
-                                <MovieItem key={id} movieId={id} title={title} poster_path={poster_path} isOpen={isOpen} overview={overview} />
+                                <MovieItem layoutId={id.toString()} key={id} movieId={id} title={title} poster_path={poster_path} isOpen={isOpen} overview={overview} />
                             </>
                         )
                     })}
