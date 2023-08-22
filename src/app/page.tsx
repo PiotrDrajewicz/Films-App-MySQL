@@ -6,6 +6,7 @@ import MovieItem from '@/components/MovieItem';
 import { useState, useEffect } from 'react';
 import Lottie from 'lottie-react';
 import tvAnimationData from '@/lib/animations/tv_animation.json';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface MovieData {
     id: number;
@@ -19,6 +20,7 @@ const HomePage: React.FC = () => {
     const [movies, setMovies] = useState<any>({});
     const [title, setTitle] = useState<string | undefined>('');
     const [pageSelectNum, setPageSelectNum] = useState<number>(1);
+    const [chosenMovie, setChosenMovie] = useState<number>(0);
 
     const getMovies = async (api: string) => {
         const res = await fetch(api);
@@ -64,11 +66,12 @@ const HomePage: React.FC = () => {
                         const { id, title, poster_path, overview} = movie;
                         const isOpen = false;
                         return (
-                            <>
-                                <MovieItem layoutId={id.toString()} key={id} movieId={id} title={title} poster_path={poster_path} isOpen={isOpen} overview={overview} />
-                            </>
+                                <MovieItem /*layoutId={id.toString()}*/ key={id} movieId={id} title={title} poster_path={poster_path} isOpen={isOpen} overview={overview} setChosenMovie={setChosenMovie} />
                         )
                     })}
+                    <AnimatePresence>
+                        {chosenMovie && <motion.p layoutId={`card-container-${chosenMovie}`} className='siema-container'>Siema</motion.p>}
+                    </AnimatePresence>
                 </section>
                 <section className="page-select-container">
                     <FontAwesomeIcon className="arrow-icon" icon={faAngleLeft} style={{color: 'white'}} size='2x' onClick={decrementPage}/>

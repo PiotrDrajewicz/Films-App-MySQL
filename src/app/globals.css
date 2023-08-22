@@ -288,19 +288,75 @@ body {
     transform: scale(1.2);
 }
 
+.movie-item-container {
+    opacity: 1;
+    z-index: 1000;
+}
+
+.movie-popup-container {
+    /* z-index: 200;
+    position: fixed;
+    will-change: opacity;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 990px; */
+
+    /* width: 85%; */
+    /* height: 50%; */
+    /* border-radius: 10px; */
+    /* background-color: white; */
+    /* z-index: 100; */
+    /* position: fixed; */
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
+    /* overflow: hidden; */
+    /* display: flex; */
+    /* max-width: 1200px; */
+    
+    width: 200px;
+    height: 200px;
+    z-index: 300;
+    /* top: 0; */
+    /* left: 0; */
+    position: fixed;
+    overflow: hidden;
+    opacity: 1;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .movie-popup {
     /* width: 85%; */
     /* height: 50%; */
     border-radius: 10px;
     background-color: white;
-    z-index: 100;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    /* z-index: 100; */
+    /* position: fixed; */
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
     overflow: hidden;
     display: flex;
     /* max-width: 1200px; */
+}
+
+.siema-container {
+    height: 100px;
+    width: 100px;
+    background-color: lightsalmon;
+}
+
+.popup-test {
+    height: 200px;
+    width: 200px;
+    background-color: lightgreen;
+
 }
 
 .movie-poster-popup {

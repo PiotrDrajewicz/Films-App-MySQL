@@ -18,6 +18,7 @@ interface MoviePopupInterface {
     poster_path: string;
     setIsActive: (isOpen: boolean) => void;
     overview: string;
+    // layoutId: string;
 }
 
 interface LikeVote {
@@ -153,31 +154,16 @@ const MoviePopup: React.FC<MoviePopupInterface> = ({movieId, title, poster_path,
 
     return (
         
-            <motion.section initial={{opacity: 0}} animate={{opacity: 1}} ref={popupRef} className="movie-popup-container" >
+            <motion.section 
+            initial={{opacity: 1}} 
+            animate={{opacity: 1}} 
+            exit={{opacity: 1, transition: {duration: 0.15}}}
+            transition={{duration: 1, delay: 0.15}}
+            layoutId={`card-container-${movieId}`}
+            ref={popupRef} 
+            className="movie-popup-container" >
                 <div className="movie-popup">
-                    <img className="movie-poster-popup" src={`https://image.tmdb.org/t/p/original${poster_path}`} alt="movie poster popup" />
-                    <div className="movie-popup-buttons">
-                        {/* <FontAwesomeIcon className="popup-icon add-fav-icon" icon={faHeart} style={ isFav ? {color: 'rgb(250, 45, 45)'} : {color: 'white'}} onClick={ isFav ? deleteFav : addToFav } size='2x' /> */}
-                        <Heart className='popup-icon add-fav-icon' size={35} color={ isFav ? "rgb(250, 45, 45)" : "white"} fill={ isFav ? "rgb(250, 45, 45)" : "none"} onClick={ isFav ? deleteFav : addToFav } />
-                        {/* <HeartIcon /> */}
-                        <div className="star-container">
-                            {/* <FontAwesomeIcon className="popup-icon rate-icon" icon={rating ? faStar : faStarHalfStroke} style={rating ? {color: 'gold'} : {color: 'white'}} onClick={toggleRate} size='2x' /> */}
-                            <Star className="popup-icon rate-icon" color={ rating ? 'gold' : 'white'} fill={ rating ? 'gold' : 'none' } onClick={toggleRate} size={35} />
-                            <p className='rate-in-star'>{rating ? rating : null}</p>
-                        </div>
-                        <div className={`rate-numbers ${ isRateOpen ? 'open' : null}`}>
-                            {rates.map(rate => {
-                                return <RateNumber key={rate} isRateOpen={isRateOpen} rating={rate} pocketBaseId={pocketBaseId} movieId={movieId} title={title} poster_path={poster_path} overview={overview} isFav={isFav} setIsRateOpen={setIsRateOpen} setRating={setRating}/>
-                            })}
-                        </div>
-                        <div className="overview-container">
-                            <h3 className="movie-title">{title}</h3>
-                            <p className="overview">{overview}</p>
-                        </div>
-                        {/* <FontAwesomeIcon className='close-icon' icon={faXmark} onClick={() => setIsActive(isOpen)} style={{color: 'white'}} size='2x' /> */}
-                        {/* <X className='close-icon' color='white' size={35} onClick={() => setIsActive(isOpen)}/> */}
-                        <XIcon setIsActive={setIsActive} isOpen={isOpen} />
-                    </div>
+                    <p className='popup-test'>This is movie popup</p>
                 </div>
             </motion.section>
         
